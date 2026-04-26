@@ -2,7 +2,7 @@
 # 
 # Quick Start:
 #   1. docker-compose up -d
-#   2. Access at http://localhost:3000
+#   2. Access at http://localhost:8888
 #
 # Using MySQL instead of PostgreSQL:
 #   1. Comment out the postgres service and SQL_DSN line 15
@@ -16,15 +16,20 @@ version: '3.4' # For compatibility with older Docker versions
 
 services:
   new-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: calciumion/new-api:latest
     container_name: new-api
     restart: always
     command: --log-dir /app/logs
     ports:
-      - "3000:3000"
+      - "8888:3000"
     volumes:
       - ./data:/data
       - ./logs:/app/logs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       - SQL_DSN=postgresql://root:123456@postgres:5432/new-api # ⚠️ IMPORTANT: Change the password in production!
 #      - SQL_DSN=root:123456@tcp(mysql:3306)/new-api  # Point to the mysql service, uncomment if using MySQL
@@ -38,6 +43,9 @@ services:
 #      - GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX  # Google Analytics 的测量 ID (Google Analytics Measurement ID)
 #      - UMAMI_WEBSITE_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx  # Umami 网站 ID (Umami Website ID)
 #      - UMAMI_SCRIPT_URL=https://analytics.umami.is/script.js  # Umami 脚本 URL，默认为官方地址 (Umami Script URL, defaults to official URL)
+      - SYSTEM_NAME=peterpanai
+      - NEW_API_BASE_URL=https://api.peterpanai.com
+      - SYSTEM_PROMPT=你是peterpanai，一个由PeterPanAI团队开发的人工智能助手，致力于为用户提供高质量的服务。请根据用户的输入，提供准确、详细的回答，并在必要时进行适当的引导。 (You are peterpanai, an AI assistant developed by the PeterPanAI team, dedicated to providing high-quality service to users. Please provide accurate and detailed answers based on user input, and offer appropriate guidance when necessary.)
 
     depends_on:
       - redis
@@ -46,7 +54,7 @@ services:
     networks:
       - new-api-network
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O - http://localhost:3000/api/status | grep -o '\"success\":\\s*true' || exit 1"]
+      test: ["CMD-SHELL", "wget -q -O - http://localhost:8888/api/status | grep -o '\"success\":\\s*true' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

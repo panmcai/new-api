@@ -6,6 +6,14 @@
 
 🍥 **Next-Generation LLM Gateway and AI Asset Management System**
 
+> ⚠️ **Note**: This is a custom deployment for PeterPanAI
+> 
+> **API Endpoint**: `https://api.peterpanai.com/v1`  
+> **API Key**: `<your API Key>`  
+> **Default Model**: `glm-5.1`
+> 
+> 📚 **Custom Documentation**: [Quick Start](./QUICK_START.md) | [Detailed Guide](./docs/custom/API_USAGE_EN.md)
+
 <p align="center">
   <a href="./README.zh_CN.md">简体中文</a> |
   <a href="./README.zh_TW.md">繁體中文</a> |
@@ -117,7 +125,7 @@ cd new-api
 nano docker-compose.yml
 
 # Start the service
-docker-compose up -d
+docker compose up -d
 ```
 
 <details>
@@ -343,7 +351,7 @@ cd new-api
 nano docker-compose.yml
 
 # Start service
-docker-compose up -d
+docker compose up -d
 ```
 
 </details>

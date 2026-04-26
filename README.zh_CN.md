@@ -6,6 +6,14 @@
 
 🍥 **新一代大模型网关与AI资产管理系统**
 
+> ⚠️ **注意**: 这是 PeterPanAI 的自定义部署版本
+> 
+> **API 地址**: `https://api.peterpanai.com/v1`  
+> **API 密钥**: `<your API Key>`  
+> **默认模型**: `glm-5.1`
+> 
+> 📚 **自定义文档**: [快速入门](./QUICK_START.md) | [详细指南](./docs/custom/API_USAGE_ZH.md)
+
 <p align="center">
   简体中文 |
   <a href="./README.zh_TW.md">繁體中文</a> |
@@ -163,7 +171,14 @@ docker run --name new-api -d --restart always \
 
 </div>
 
-**快速导航：**
+### 🎯 PeterPanAI 自定义文档
+| 文档 | 描述 | 链接 |
+|------|------|------|
+| 🚀 快速入门 | 30秒开始使用 PeterPanAI API | [QUICK_START.md](./QUICK_START.md) |
+| 📖 详细指南 | 完整的中文使用指南 | [API_USAGE_ZH.md](./docs/custom/API_USAGE_ZH.md) |
+| 🌐 英文文档 | English documentation | [API_USAGE_EN.md](./docs/custom/API_USAGE_EN.md) |
+
+### 📚 官方文档导航
 
 | 分类 | 链接 |
 |------|------|
