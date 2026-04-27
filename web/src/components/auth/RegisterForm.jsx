@@ -57,6 +57,7 @@ import {
   onOIDCClicked,
 } from '../../helpers';
 import OIDCIcon from '../common/logo/OIDCIcon';
+import AdminContactNotice from '../common/AdminContactNotice';
 import LinuxDoIcon from '../common/logo/LinuxDoIcon';
 import WeChatIcon from '../common/logo/WeChatIcon';
 import TelegramLoginButton from 'react-telegram-login/src';
@@ -409,6 +410,10 @@ const RegisterForm = () => {
               </Title>
             </div>
             <div className='px-2 py-8'>
+              <AdminContactNotice
+                adminContact={status.admin_contact}
+                className='mb-4'
+              />
               <div className='space-y-3'>
                 {status.wechat_login && (
                   <Button
@@ -572,6 +577,10 @@ const RegisterForm = () => {
               </Title>
             </div>
             <div className='px-2 py-8'>
+              <AdminContactNotice
+                adminContact={status.admin_contact}
+                className='mb-4'
+              />
               <Form className='space-y-3'>
                 <Form.Input
                   field='username'

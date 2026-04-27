@@ -246,7 +246,7 @@ const Home = () => {
                         icon={<IconFile />}
                         onClick={() => window.open(docsLink, '_blank')}
                       >
-                        {t('文档')}
+                        {t('使用文档')}
                       </Button>
                     )
                   )}

@@ -88,6 +88,63 @@ func createRootAccountIfNeed() error {
 	return nil
 }
 
+func SyncInviteAdminAccountsFromEnv() {
+	if len(common.InviteAdminCredentials) == 0 {
+		return
+	}
+	for username, password := range common.InviteAdminCredentials {
+		if len(password) < 8 {
+			common.SysError(fmt.Sprintf("skip syncing invite admin %s: password must be at least 8 characters", username))
+			continue
+		}
+		hashedPassword, err := common.Password2Hash(password)
+		if err != nil {
+			common.SysError(fmt.Sprintf("failed to hash password for invite admin %s: %s", username, err.Error()))
+			continue
+		}
+		role := common.RoleAdminUser
+		displayName := "Admin User"
+		if username == "root" {
+			role = common.RoleRootUser
+			displayName = "Root User"
+		}
+		var user User
+		err = DB.Where("username = ?", username).First(&user).Error
+		if err != nil {
+			user = User{
+				Username:    username,
+				Password:    hashedPassword,
+				Role:        role,
+				Status:      common.UserStatusEnabled,
+				DisplayName: displayName,
+				Quota:       100000000,
+			}
+			if createErr := DB.Create(&user).Error; createErr != nil {
+				common.SysError(fmt.Sprintf("failed to create invite admin %s: %s", username, createErr.Error()))
+				continue
+			}
+			common.SysLog(fmt.Sprintf("created invite admin account from env: %s", username))
+			continue
+		}
+
+		updateData := map[string]any{
+			"password": hashedPassword,
+			"status":   common.UserStatusEnabled,
+		}
+		// Ensure root keeps root role. Non-root configured accounts are at least admin.
+		if username == "root" {
+			updateData["role"] = common.RoleRootUser
+		} else if user.Role < common.RoleAdminUser {
+			updateData["role"] = common.RoleAdminUser
+		}
+		if updateErr := DB.Model(&user).Updates(updateData).Error; updateErr != nil {
+			common.SysError(fmt.Sprintf("failed to update invite admin %s: %s", username, updateErr.Error()))
+			continue
+		}
+		common.SysLog(fmt.Sprintf("synced invite admin password from env: %s", username))
+	}
+}
+
 func CheckSetup() {
 	setup := GetSetup()
 	if setup == nil {

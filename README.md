@@ -12,7 +12,7 @@
 > **API Key**: `<your API Key>`  
 > **Default Model**: `glm-5.1`
 > 
-> 📚 **Custom Documentation**: [Quick Start](./QUICK_START.md) | [Detailed Guide](./docs/custom/API_USAGE_EN.md)
+> 📚 **Documentation** (rendered in the web app): `/docs/quick` · `/docs/usage-en` · `/docs/usage-zh` · hub `/docs/index.html` — repo sources: [Quick Start](./QUICK_START.md), [USAGE_EN.md](./web/public/docs/USAGE_EN.md), [USAGE_ZH.md](./web/public/docs/USAGE_ZH.md)
 
 <p align="center">
   <a href="./README.zh_CN.md">简体中文</a> |

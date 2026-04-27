@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	//"os"
 	//"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -50,6 +51,16 @@ var WeChatAuthEnabled = false
 var TelegramOAuthEnabled = false
 var TurnstileCheckEnabled = false
 var RegisterEnabled = true
+var InviteAdminUsernames = make(map[string]struct{})
+var InviteAdminCredentials = make(map[string]string)
+
+func IsInviteAdminUsername(username string) bool {
+	if len(InviteAdminUsernames) == 0 {
+		return false
+	}
+	_, ok := InviteAdminUsernames[strings.ToLower(strings.TrimSpace(username))]
+	return ok
+}
 
 var EmailDomainRestrictionEnabled = false // 是否启用邮箱域名限制
 var EmailAliasRestrictionEnabled = false  // 是否启用邮箱别名限制

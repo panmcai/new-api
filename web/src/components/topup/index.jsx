@@ -39,6 +39,7 @@ import InvitationCard from './InvitationCard';
 import TransferModal from './modals/TransferModal';
 import PaymentConfirmModal from './modals/PaymentConfirmModal';
 import TopupHistoryModal from './modals/TopupHistoryModal';
+import AdminContactNotice from '../common/AdminContactNotice';
 
 const TopUp = () => {
   const { t } = useTranslation();
@@ -714,6 +715,10 @@ const TopUp = () => {
 
   return (
     <div className='w-full max-w-7xl mx-auto relative min-h-screen lg:min-h-0 mt-[60px] px-2'>
+      <AdminContactNotice
+        adminContact={statusState?.status?.admin_contact}
+        className='mb-4'
+      />
       {/* 划转模态框 */}
       <TransferModal
         t={t}

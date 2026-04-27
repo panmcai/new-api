@@ -447,3 +447,11 @@ pre:hover .copy-code-button {
   animation: fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   will-change: opacity, transform;
 }
+
+/* 静态文档页（/docs/:slug） */
+.docs-static-md pre {
+  overflow-x: auto;
+  padding: 12px;
+  border-radius: 6px;
+  background: var(--semi-color-fill-0, #f5f5f5);
+}

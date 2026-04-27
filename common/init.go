@@ -177,4 +177,40 @@ func initConstantEnv() {
 		}
 	}
 	constant.TrustedRedirectDomains = trustedDomains
+
+	// Invite-only registration: allow multiple inviter admins by username.
+	// Example: INVITE_ADMIN_USERNAMES=root,alice,bob
+	InviteAdminUsernames = make(map[string]struct{})
+	inviteAdmins := GetEnvOrDefaultString("INVITE_ADMIN_USERNAMES", "")
+	for _, admin := range strings.Split(inviteAdmins, ",") {
+		trimmedAdmin := strings.ToLower(strings.TrimSpace(admin))
+		if trimmedAdmin == "" {
+			continue
+		}
+		InviteAdminUsernames[trimmedAdmin] = struct{}{}
+	}
+
+	// Invite admin credentials from env. Supports multiple username:password pairs.
+	// Example: INVITE_ADMIN_ACCOUNTS=root:StrongPass123,admin1:StrongPass456
+	InviteAdminCredentials = make(map[string]string)
+	inviteAdminAccounts := GetEnvOrDefaultString("INVITE_ADMIN_ACCOUNTS", "")
+	for _, account := range strings.Split(inviteAdminAccounts, ",") {
+		trimmedAccount := strings.TrimSpace(account)
+		if trimmedAccount == "" {
+			continue
+		}
+		parts := strings.SplitN(trimmedAccount, ":", 2)
+		if len(parts) != 2 {
+			SysError("invalid INVITE_ADMIN_ACCOUNTS entry, expected username:password")
+			continue
+		}
+		username := strings.ToLower(strings.TrimSpace(parts[0]))
+		password := strings.TrimSpace(parts[1])
+		if username == "" || password == "" {
+			SysError("invalid INVITE_ADMIN_ACCOUNTS entry, username or password is empty")
+			continue
+		}
+		InviteAdminCredentials[username] = password
+		InviteAdminUsernames[username] = struct{}{}
+	}
 }

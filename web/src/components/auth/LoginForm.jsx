@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { UserContext } from '../../context/User';
 import { StatusContext } from '../../context/Status';
 import {
@@ -64,6 +64,7 @@ import OIDCIcon from '../common/logo/OIDCIcon';
 import WeChatIcon from '../common/logo/WeChatIcon';
 import LinuxDoIcon from '../common/logo/LinuxDoIcon';
 import TwoFAVerification from './TwoFAVerification';
+import AdminContactNotice from '../common/AdminContactNotice';
 import { useTranslation } from 'react-i18next';
 import { SiDiscord } from 'react-icons/si';
 
@@ -518,6 +519,10 @@ const LoginForm = () => {
               </Title>
             </div>
             <div className='px-2 py-8'>
+              <AdminContactNotice
+                adminContact={status.admin_contact}
+                className='mb-4'
+              />
               <div className='space-y-3'>
                 {status.wechat_login && (
                   <Button
@@ -698,15 +703,7 @@ const LoginForm = () => {
 
               {!status.self_use_mode_enabled && (
                 <div className='mt-6 text-center text-sm'>
-                  <Text>
-                    {t('没有账户？')}{' '}
-                    <Link
-                      to='/register'
-                      className='text-blue-600 hover:text-blue-800 font-medium'
-                    >
-                      {t('注册')}
-                    </Link>
-                  </Text>
+                  <Text>{t('当前系统采用管理员邀请制，请联系管理员获取邀请链接')}</Text>
                 </div>
               )}
             </div>
@@ -732,6 +729,10 @@ const LoginForm = () => {
               </Title>
             </div>
             <div className='px-2 py-8'>
+              <AdminContactNotice
+                adminContact={status.admin_contact}
+                className='mb-4'
+              />
               {status.passkey_login && passkeySupported && (
                 <Button
                   theme='outline'
@@ -851,15 +852,7 @@ const LoginForm = () => {
 
               {!status.self_use_mode_enabled && (
                 <div className='mt-6 text-center text-sm'>
-                  <Text>
-                    {t('没有账户？')}{' '}
-                    <Link
-                      to='/register'
-                      className='text-blue-600 hover:text-blue-800 font-medium'
-                    >
-                      {t('注册')}
-                    </Link>
-                  </Text>
+                  <Text>{t('当前系统采用管理员邀请制，请联系管理员获取邀请链接')}</Text>
                 </div>
               )}
             </div>

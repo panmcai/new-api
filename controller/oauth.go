@@ -111,6 +111,8 @@ func HandleOAuth(c *gin.Context) {
 			common.ApiErrorI18n(c, i18n.MsgOAuthUserDeleted)
 		case *OAuthRegistrationDisabledError:
 			common.ApiErrorI18n(c, i18n.MsgUserRegisterDisabled)
+		case *OAuthInviteOnlyError:
+			common.ApiErrorMsg(c, "当前系统仅支持受邀注册，请联系管理员获取邀请链接")
 		default:
 			common.ApiError(c, err)
 		}
@@ -268,6 +270,18 @@ func findOrCreateOAuthUser(c *gin.Context, provider oauth.Provider, oauthUser *o
 	if affCode != nil {
 		inviterId, _ = model.GetUserIdByAffCode(affCode.(string))
 	}
+	if len(common.InviteAdminUsernames) > 0 {
+		if inviterId == 0 {
+			return nil, &OAuthInviteOnlyError{}
+		}
+		inviterName, err := model.GetUsernameById(inviterId, true)
+		if err != nil {
+			return nil, err
+		}
+		if !common.IsInviteAdminUsername(inviterName) {
+			return nil, &OAuthInviteOnlyError{}
+		}
+	}
 
 	// Use transaction to ensure user creation and OAuth binding are atomic
 	if genericProvider, ok := provider.(*oauth.GenericOAuthProvider); ok {
@@ -341,6 +355,12 @@ type OAuthRegistrationDisabledError struct{}
 
 func (e *OAuthRegistrationDisabledError) Error() string {
 	return "registration is disabled"
+}
+
+type OAuthInviteOnlyError struct{}
+
+func (e *OAuthInviteOnlyError) Error() string {
+	return "invite-only registration is enabled"
 }
 
 // handleOAuthError handles OAuth errors and returns translated message

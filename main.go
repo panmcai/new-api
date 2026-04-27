@@ -272,6 +272,7 @@ func InitResources() error {
 
 	// Initialize options, should after model.InitDB()
 	model.InitOptionMap()
+	model.SyncInviteAdminAccountsFromEnv()
 
 	// 清理旧的磁盘缓存文件
 	common.CleanupOldCacheFiles()

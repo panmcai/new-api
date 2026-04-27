@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PeterPanAI API 文档</title>
+    <title>使用文档</title>
     <style>
         * {
             margin: 0;
@@ -166,39 +166,43 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>PeterPanAI API 文档中心</h1>
-            <p>一站式 API 使用指南与集成文档</p>
+            <h1>使用文档</h1>
+            <p>https://api.peterpanai.com · OpenAI 兼容 /v1</p>
         </div>
 
         <div class="docs-grid">
-            <a href="./API_USAGE_ZH.md" class="doc-card">
+            <a href="/docs/usage-zh" class="doc-card">
                 <div class="doc-icon">📖</div>
-                <h2>中文详细指南</h2>
-                <p>完整的中文 API 使用文档，包含客户端集成、故障排除、高级配置等详细内容。</p>
-                <span class="doc-link">查看文档 →</span>
+                <h2>使用文档（中文）</h2>
+                <p>令牌、curl、Python、Cursor 基址一行说明。</p>
+                <span class="doc-link">打开 →</span>
             </a>
 
-            <a href="./API_USAGE_EN.md" class="doc-card">
+            <a href="/docs/usage-en" class="doc-card">
                 <div class="doc-icon">🌐</div>
-                <h2>English Documentation</h2>
-                <p>Complete English API documentation with client integration, troubleshooting, and advanced
-                    configuration.</p>
-                <span class="doc-link">View Documentation →</span>
+                <h2>Usage (EN)</h2>
+                <p>Token, curl, Python, IDE base URL.</p>
+                <span class="doc-link">Open →</span>
             </a>
 
-            <a href="../QUICK_START.md" class="doc-card">
+            <a href="/docs/quick" class="doc-card">
                 <div class="doc-icon">🚀</div>
-                <h2>快速入门指南</h2>
-                <p>30秒快速开始使用 PeterPanAI API，包含基础测试命令和常见问题解答。</p>
-                <span class="doc-link">快速开始 →</span>
+                <h2>快速入门</h2>
+                <p>健康检查 + 一条 chat 测试命令。</p>
+                <span class="doc-link">打开 →</span>
             </a>
         </div>
 
         <div class="footer">
-            <p>© 2026 peterpanai. 版权所有 </p>
-            <p>基于 new-api 构建 · 状态: ✅ 运行正常</p>
+            <p>© <span id="docs-copyright-year"></span></p>
         </div>
     </div>
+    <script>
+        (function () {
+            var el = document.getElementById('docs-copyright-year');
+            if (el) el.textContent = String(new Date().getFullYear());
+        })();
+    </script>
 </body>
 
 </html>

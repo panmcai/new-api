@@ -12,7 +12,7 @@
 > **API 密钥**: `<your API Key>`  
 > **默认模型**: `glm-5.1`
 > 
-> 📚 **自定义文档**: [快速入门](./QUICK_START.md) | [详细指南](./docs/custom/API_USAGE_ZH.md)
+> 📚 **使用文档**（部署后在浏览器中打开为渲染页）：`/docs/quick`、`/docs/usage-zh`、`/docs/usage-en`，索引 `/docs/index.html`；仓库内 Markdown 源：[快速入门](./QUICK_START.md)、[USAGE_ZH.md](./web/public/docs/USAGE_ZH.md)、[USAGE_EN.md](./web/public/docs/USAGE_EN.md)
 
 <p align="center">
   简体中文 |
@@ -175,8 +175,8 @@ docker run --name new-api -d --restart always \
 | 文档 | 描述 | 链接 |
 |------|------|------|
 | 🚀 快速入门 | 30秒开始使用 PeterPanAI API | [QUICK_START.md](./QUICK_START.md) |
-| 📖 详细指南 | 完整的中文使用指南 | [API_USAGE_ZH.md](./docs/custom/API_USAGE_ZH.md) |
-| 🌐 英文文档 | English documentation | [API_USAGE_EN.md](./docs/custom/API_USAGE_EN.md) |
+| 📖 使用文档（中文） | OpenAI 兼容网关使用说明 | [USAGE_ZH.md](./web/public/docs/USAGE_ZH.md) |
+| 🌐 Usage (EN) | English usage guide | [USAGE_EN.md](./web/public/docs/USAGE_EN.md) |
 
 ### 📚 官方文档导航
 

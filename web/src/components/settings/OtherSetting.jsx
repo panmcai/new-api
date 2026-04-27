@@ -28,7 +28,13 @@ import {
   Space,
   Card,
 } from '@douyinfe/semi-ui';
-import { API, showError, showSuccess, timestamp2string } from '../../helpers';
+import {
+  API,
+  showError,
+  showSuccess,
+  timestamp2string,
+  setStatusData,
+} from '../../helpers';
 import { marked } from 'marked';
 import { useTranslation } from 'react-i18next';
 import { StatusContext } from '../../context/Status';
@@ -46,6 +52,7 @@ const OtherSetting = () => {
     SystemName: '',
     Logo: '',
     Footer: '',
+    AdminContact: '',
     About: '',
     HomePageContent: '',
   });
@@ -81,6 +88,7 @@ const OtherSetting = () => {
     HomePageContent: false,
     About: false,
     Footer: false,
+    AdminContact: false,
     CheckUpdate: false,
   });
   const handleInputChange = async (value, e) => {
@@ -228,6 +236,31 @@ const OtherSetting = () => {
     }
   };
 
+  const submitAdminContact = async () => {
+    try {
+      setLoadingInput((loadingInput) => ({
+        ...loadingInput,
+        AdminContact: true,
+      }));
+      await updateOption('AdminContact', inputs.AdminContact);
+      showSuccess(t('管理员联系方式已更新'));
+      statusDispatch({ type: 'unset' });
+      const res = await API.get('/api/status');
+      if (res.data?.success) {
+        setStatusData(res.data.data);
+        statusDispatch({ type: 'set', payload: res.data.data });
+      }
+    } catch (error) {
+      console.error(error);
+      showError(t('管理员联系方式更新失败'));
+    } finally {
+      setLoadingInput((loadingInput) => ({
+        ...loadingInput,
+        AdminContact: false,
+      }));
+    }
+  };
+
   const checkUpdate = async () => {
     try {
       setLoadingInput((loadingInput) => ({
@@ -288,9 +321,12 @@ const OtherSetting = () => {
           newInputs[item.key] = item.value;
         }
       });
-      setInputs(newInputs);
-      formAPISettingGeneral.current.setValues(newInputs);
-      formAPIPersonalization.current.setValues(newInputs);
+      setInputs((prev) => {
+        const merged = { ...prev, ...newInputs };
+        formAPISettingGeneral.current?.setValues(merged);
+        formAPIPersonalization.current?.setValues(merged);
+        return merged;
+      });
     } else {
       showError(message);
     }
@@ -493,6 +529,24 @@ const OtherSetting = () => {
               />
               <Button onClick={submitFooter} loading={loadingInput['Footer']}>
                 {t('设置页脚')}
+              </Button>
+              <Form.TextArea
+                label={t('管理员联系方式')}
+                placeholder={t(
+                  '例如：企业微信 xxx、邮箱 admin@example.com、Telegram @xxx',
+                )}
+                field={'AdminContact'}
+                onChange={handleInputChange}
+                autosize={{ minRows: 3, maxRows: 8 }}
+                extraText={t(
+                  '展示在登录页与充值兑换页顶部，便于用户联系管理员获取兑换码等。支持多行纯文本。',
+                )}
+              />
+              <Button
+                onClick={submitAdminContact}
+                loading={loadingInput['AdminContact']}
+              >
+                {t('保存管理员联系方式')}
               </Button>
             </Form.Section>
           </Card>
